@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     "/": { prerender: true },
     "/assets/css/*": { cache: { maxAge: 60 * 60 } },
     "/_nuxt/assets/css/*": { cache: { maxAge: 60 * 60 } },
-    "_vercel/*": { cache: { maxAge: 60 * 60 } },
+    "/_vercel/*": { cache: { maxAge: 60 * 60 } },
   },
   future: {
     compatibilityVersion: 4,
