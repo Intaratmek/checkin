@@ -1,14 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  nitro: {
-    preset: "vercel-edge",
-  },
   routeRules: {
     // Generated at build time for SEO purpose
     "/": { prerender: true },
     "/assets/css/*": { cache: { maxAge: 60 * 60 } },
     "/_nuxt/assets/css/*": { cache: { maxAge: 60 * 60 } },
-    "/_vercel/*": { cache: { maxAge: 60 * 60 } },
   },
   future: {
     compatibilityVersion: 4,
