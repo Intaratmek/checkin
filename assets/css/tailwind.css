@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: "Roboto", "Arial", sans-serif;
+    white-space: nowrap;
+    scrollbar-width: none;
+    scrollbar-width: inherit;
+    scrollbar-color: #afafaf;
+
+}
