@@ -3,11 +3,20 @@ import dayjs from "dayjs";
 export default defineEventHandler(async (event) => {
   const db = getFirestore();
   const { emp } = await readBody(event);
+  const emp_data = isNaN(Number(emp)) ? emp : Number(emp);
 
-  const recipeSnap = await db
-    .collection("data_emp")
-    .where("emp", "==", isNaN(Number(emp)) ? emp : Number(emp))
-    .get();
+  let query;
+  if (isNaN(emp_data)) {
+    // If emp_data is not a number (i.e., it is a string)
+    query = db
+      .collection("data_emp")
+      .where("emp", "in", [emp_data.toUpperCase(), emp_data.toLowerCase()]);
+  } else {
+    // If emp_data is a number
+    query = db.collection("data_emp").where("emp", "==", emp_data);
+  }
+
+  const recipeSnap = await query.get();
 
   if (recipeSnap.empty) {
     return { status: "0" };
@@ -19,6 +28,7 @@ export default defineEventHandler(async (event) => {
       data: row.data(),
     };
   });
+
   if (recipeData.length) {
     const data_emp = {
       emp: recipeData[0].data.emp,
@@ -34,11 +44,19 @@ export default defineEventHandler(async (event) => {
       color: [],
       uuid: [],
     };
-    recipeData.map((row) => {
-      data_emp.remark.push(row.data.remark);
-      data_emp.color.push(row.data.type_color);
-      data_emp.uuid.push(row.uuid);
+
+    recipeData.forEach((row) => {
+      if (!data_emp.remark.includes(row.data.remark)) {
+        data_emp.remark.push(row.data.remark);
+      }
+      if (!data_emp.color.includes(row.data.type_color)) {
+        data_emp.color.push(row.data.type_color);
+      }
+      if (!data_emp.uuid.includes(row.uuid)) {
+        data_emp.uuid.push(row.uuid);
+      }
     });
+
     return { status: "OK", data: data_emp };
   } else {
     return { status: "0" };
