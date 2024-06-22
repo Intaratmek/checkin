@@ -3,10 +3,9 @@ export default defineNuxtConfig({
   routeRules: {
     // Generated at build time for SEO purpose
     "/": { prerender: true },
-    "/assets/css/*": { cache: { maxAge: 60 * 60 } },
-    "/public/*": { cache: { maxAge: 60 * 60 } },
-    "/_nuxt/assets/css/*": { cache: { maxAge: 60 * 60 } },
-    "/.netlify/*": { cache: { maxAge: 60 * 60 } },
+    "/assets/css/**": { cache: { maxAge: 60 * 60 } },
+    "/public/**": { cache: { maxAge: 60 * 60 } },
+    "/.netlify/**": { cache: { maxAge: 60 * 60 } },
   },
   future: {
     compatibilityVersion: 4,
