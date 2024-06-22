@@ -110,7 +110,7 @@
                         </button>
                     </div>
                     <div v-else class=" space-y-1 text-center">
-                        <div class="text-xs">มี่การบันทึกเวลาการลงทะเบียนในระบบแล้ว</div>
+                        <div class="text-xs">มีการบันทึกเวลาการลงทะเบียนในระบบแล้ว</div>
                         <div class=" px-1 rounded-md bg-gray-100 text-gray-700 font-bold">{{ data_emp?.checkin }}</div>
                         <div class="text-xs">เวลาในการลงทะเบียน</div>
                     </div>
@@ -146,27 +146,8 @@ const error_data = ref({
     text: ''
 })
 
-const { data: data_emp } = await useAsyncData(async () => {
-    if (route.query.emp) {
-        try {
-            const res = await $fetch('/api/select_emp', {
-                method: "POST",
-                body: { emp: route.query.emp }
-            });
-            const { data, status } = res;
-            if (status == "OK") {
-                return data;
-            } else {
-                return {}; // Return an empty object or some default value
-            }
-        } catch (error) {
-            console.error("Error fetching employee data:", error);
-            return {}; // Return an empty object or some default value in case of error
-        }
-    } else {
-        return {}; // Return an empty object or some default value if no emp query parameter
-    }
-});
+const data_emp = ref({});
+
 onMounted(() => {
     if (route.query.emp && !data_emp.value.emp) {
         router.replace({ query: {} });
