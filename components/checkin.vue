@@ -146,7 +146,27 @@ const error_data = ref({
     text: ''
 })
 
-const data_emp = ref({});
+const { data: data_emp } = await useAsyncData(async () => {
+    if (route.query.emp) {
+        try {
+            const res = await $fetch('/api/select_emp', {
+                method: "POST",
+                body: { emp: route.query.emp }
+            });
+            const { data, status } = res;
+            if (status == "OK") {
+                return data;
+            } else {
+                return {}; // Return an empty object or some default value
+            }
+        } catch (error) {
+            console.error("Error fetching employee data:", error);
+            return {}; // Return an empty object or some default value in case of error
+        }
+    } else {
+        return {}; // Return an empty object or some default value if no emp query parameter
+    }
+});
 onMounted(() => {
     if (route.query.emp && !data_emp.value.emp) {
         router.replace({ query: {} });
